@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 4</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+</head>
+<body>
+  <div class="app4-vuejs">
+    <div id="app4">
+      <form @submit.prevent="submitForm">
+        <div class="form-group">
+          <div>
+            <label for="username">Username:</label>
+            <label v-if="!isUsernameValid" class="error-message">Username do not have to empty.</label>
+          </div>
+          <input type="text" id="username" v-model="username">
+        </div>
+  
+        <div class="form-group">
+          <div>
+            <label for="email">Email:</label>
+            <label v-if="!isEmailValid" class="error-message">Please enter a valid email address.</label>
+          </div>
+          <input type="email" id="email" v-model="email">
+        </div>
+  
+        <div class="form-group">
+          <div>
+            <label for="password">Password:</label>
+            <label v-if="!isPasswordValid" class="error-message">Password must be at least 8 characters.</label>
+          </div>
+          <input type="password" id="password" v-model="password">
+        </div>
+  
+        <button :disabled="!isFormValid">Submit</button>
+      </form>
+    </div>
+  </div>
+  
+  <style>
+    .app4-vuejs {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; 
+    }
+  
+    .form-group {
+      margin-bottom: 15px;
+    }
+  
+    .form-group div {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+  
+    .error-message {
+      color: red;
+      margin-left: 5px;
+    }
+  </style>
+  
+    <script>
+        var app = new Vue({
+  el: '#app4',
+  data: {
+    username: '',
+    email: '',
+    password: '',
+    isUsernameValid: true,
+    isEmailValid: true,
+    isPasswordValid: true
+  },
+  computed: {
+    isFormValid() {
+      return this.isUsernameValid && this.isEmailValid && this.isPasswordValid;
+    }
+  },
+  methods: {
+    submitForm() {
+      if (this.isFormValid) {
+        console.log('Form submitted successfully!');
+      } else {
+        console.log('Form submission failed. Please check the fields.');
+      }
+    }
+  },
+  watch: {
+    username(value) {
+      this.isUsernameValid = value.trim() !== '';
+    },
+    email(value) {
+      this.isEmailValid = /\S+@\S+\.\S+/.test(value);
+    },
+    password(value) {
+      this.isPasswordValid = value.length >= 8;
+    }
+  }
+});
+    </script>
+</body>
+</html>
