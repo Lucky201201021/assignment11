@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 5</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+</head>
+<body>
+  <div class="app5-vuejs">
+    <div id="app">
+      <h2>Task List</h2>
+      <div>
+        <input v-model="newTask" @keyup.enter="addTask" placeholder="Add a new task...">
+        <button @click="addTask">Add Task</button>
+      </div>
+      <ul>
+        <li v-for="(task, index) in tasks" :key="index" class="task-item">
+          <span :class="{ 'completed': task.completed }">
+            {{ task.title }}
+          </span>
+          <div class="task-buttons">
+            <button @click="toggleCompletion(index)">
+              {{ task.completed ? '✗' : '✓' }}
+            </button>
+            <button @click="removeTask(index)">Delete</button>
+          </div>
+        </li>
+      </ul>
+    </div>    
+  </div>
+<style>
+
+  .app5-vuejs {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  }
+  .task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 90px;
+}
+
+.task-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #999;
+}
+
+
+</style>
+
+    <script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    tasks: [
+      { title: 'Buy something', completed: false },
+      { title: 'Do something', completed: true },
+      { title: 'Go somewhere', completed: false }
+    ],
+    newTask: ''
+  },
+  methods: {
+    toggleCompletion(index) {
+      this.tasks[index].completed = !this.tasks[index].completed;
+    },
+    removeTask(index) {
+      this.tasks.splice(index, 1);
+    },
+    addTask() {
+      if (this.newTask.trim() !== '') {
+        this.tasks.push({ title: this.newTask, completed: false });
+        this.newTask = '';
+      }
+    }
+  }
+});
+
+    </script>
+</body>
+</html>
